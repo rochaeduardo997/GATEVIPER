@@ -1,3 +1,4 @@
+#!/bin/bash
 echo -e "--------------------------------------------------------------------------------" >> log.txt
 echo -e "Starting at `date +%T" - "%d"."%m"."%Y`\n" >> log.txt
 
@@ -28,13 +29,14 @@ hashGenerated=`sha256sum $compressedFile | cut -d " " -f 1`
 echo -e "File generated: $compressedFile\n" >> log.txt
 echo -e "Hash generated: $hashGenerated\n" >> log.txt
 
-serverPassword=''
-serverIPAddress=''
-serverPathToStore=''
+serverPassword=""
+serverIPAddress=""
+serverUsername=""
+serverPathToStore=""
 
 sshpass -p $serverPassword scp $compressedFile suporte@$serverIPAddress:$serverPathToStore
 
-hashGeneratedDestination=`sshpass -p $serverPassword ssh suporte@$serverIPAddress "sha256sum $serverPathToStore/$compressedFile | $cutDelimiter"`
+hashGeneratedDestination=`sshpass -p $serverPassword ssh $serverUsername@$serverIPAddress "sha256sum $serverPathToStore/$compressedFile | $cutDelimiter"`
 
 #echo $hashGeneratedDestination
 
